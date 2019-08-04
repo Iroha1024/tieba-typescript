@@ -1,0 +1,8 @@
+$bg-color: #E9EEF3;
+$warning-font-color: #eb1f1f;
+$icon-hover-color: #3dd2ec;
+
+//element滑轮
+ /deep/ .el-scrollbar__wrap {
+    overflow-x: hidden;
+}

@@ -6,8 +6,16 @@ function resolve(dir) {
 
 module.exports = {
     chainWebpack: config => {
+        config.resolve.symlinks(true);
         config.resolve.alias
-            .set('@', resolve('src'))
+            .set('@', resolve('src'));
+    },
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `@import "~@/assets/css/variable.scss";`
+            }
+        }
     },
     devServer: {
         proxy: {
