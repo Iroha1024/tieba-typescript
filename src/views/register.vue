@@ -5,8 +5,8 @@
             <div class="info">
                 <div :class="[input.name, 'row']" v-for="(input, index) of inputList" :key="index">
                     <label :for="input.name" class="text">{{ input.info }}</label>
-                    <input :type="index == 0 ? 'text' : 'password'" :id="input.name" class="input" 
-                        :autofocus="index == 0" :maxlength="input.maxlength" 
+                    <input :type="index === 0 ? 'text' : 'password'" :id="input.name" class="input" 
+                        :autofocus="index === 0" :maxlength="input.maxlength" autocomplete="off"
                         @input="check(index, $event.currentTarget)" :pattern="input.pattern" :data-msg="input.msg">
                     <i class="icon el-icon-check"></i>
                     <div class="warning">
@@ -91,13 +91,13 @@ export default class Register extends Vue {
             this.toggleTips(msgNode, icon, 'show', <string>input.getAttribute('data-msg'));
         }
         //当用户名满足正则后
-        if (index == 0 && icon.style.display === 'inline-block') {
+        if (index === 0 && icon.style.display === 'inline-block') {
             this.checkHasName(msgNode, icon, input.value);
         }
         //检验密码是否相同
         let password = (<HTMLInputElement>document.getElementById('password')).value;
         let check = (<HTMLInputElement>document.getElementById('check')).value;
-        if (index == 0 || !password || !check) return;
+        if (index === 0 || !password || !check) return;
         if (password !== check) {
             this.toggleTips(msgNode, icon, 'show', '密码不相同！！！');
         } else {
@@ -113,9 +113,8 @@ export default class Register extends Vue {
     //检查数据库中是否已存在此用户名
     checkHasName(msg: HTMLParagraphElement, icon: HTMLElement, name: string) {
         (debounce(this, () => {
-            this.$axios.get('/register/checkName/' + name)
+            this.$axios.get(this.$api.CHECK_LOGIN_NAME + name)
             .then((result: any) => {
-                // console.log('in');
                 if (result.data.existed) {
                     msg.style.display = 'block';
                     icon.style.display = 'none';
@@ -156,15 +155,15 @@ export default class Register extends Vue {
                 let username = <HTMLInputElement>document.getElementById('username');
                 let password = <HTMLInputElement>document.getElementById('password');
                 let arr = [username, password];
-                this.$axios.post('/register/', {
-                    username: username.value,
+                this.$axios.post(this.$api.REGISTER_USER, {
+                    login_name: username.value,
                     password: password.value,
                 })
                 .then((result: any) => {
                     if (result.data.success) {
                         // console.log(result.data.user);
                         let user = result.data.user;
-                        this.$store.dispatch('initUser', user);
+                        // this.$store.dispatch('initUser', user);
                         loading.close();
                         // this.$destroy('register');
                         this.$router.push('/home');

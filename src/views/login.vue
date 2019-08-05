@@ -3,8 +3,8 @@
         <div class="content">
             <div :class="input.name" v-for="(input, index) of inputList" :key="index">
                 <label :for="input.name" class="text">{{ input.info }}</label>
-                <input :type="index == 1 ? 'password' : 'text'" :id="input.name" class="input" 
-                       :autofocus="index == 0" :maxlength="input.maxlength" 
+                <input :type="index === 1 ? 'password' : 'text'" :id="input.name" class="input" 
+                       :autofocus="index === 0" :maxlength="input.maxlength" autocomplete="off"
                        @input="check(index, $event.currentTarget)" :pattern="input.pattern" :data-msg="input.msg">
                 <div class="warning">
                     <p class="tips"></p>
@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { State } from 'vuex-class';
 
 import animateCSS from '../utils/animateCSS';
 
@@ -42,6 +43,9 @@ export default class Login extends Vue {
             msg: '6到20位（字母，数字）'
         },
     ];
+
+    created() {
+    }
 
     //检查是否符合正则
     check(index: number, input: HTMLInputElement) {
@@ -72,7 +76,7 @@ export default class Login extends Vue {
             return msgNode.style.display === 'none';
         })
         if (judge) {
-            this.$axios.post('/login', {
+            this.$axios.post(this.$api.LOGIN, {
                 username: username.value,
                 password: password.value,
             })
@@ -84,7 +88,7 @@ export default class Login extends Vue {
                 } else {
                     let user = result.data.user;
                     // console.log(user);
-                    // this.$store.dispatch('initUser', user);
+                    // this.$store.dispatch('saveLoginUser', test);
                     // this.$destroy('login');
                     this.$router.push('/home');
                 }

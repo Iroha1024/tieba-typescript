@@ -4,6 +4,7 @@ import router from './router'
 import store from './store/'
 
 import axios from './api/config';
+import * as api from './api/';
 import ElementUI from 'element-ui';
 // import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
 
@@ -14,6 +15,7 @@ import 'animate.css/animate.min.css';
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios;
+Vue.prototype.$api = api;
 
 Vue.use(ElementUI);
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
