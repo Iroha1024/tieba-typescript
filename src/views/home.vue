@@ -12,3 +12,9 @@ export default class Home extends Vue {
 
 }
 </script>
+
+<style lang="scss" scoped>
+    .home {
+        background-color: $bg-color;
+    }
+</style>

@@ -6,7 +6,8 @@ const db = knex({
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'tieba_ts'
+        database: 'tieba_ts',
+        timezone: "08:00"
     }
 })
 

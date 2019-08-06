@@ -1,5 +1,6 @@
 <template>
     <div id="app" v-if="exist">
+        <head-nav @exit="reload" v-if="!showHeadNav"></head-nav>
         <router-view />
     </div>
 </template>
@@ -7,14 +8,18 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
-@Component
+import headNav from './components/headNav/headNav.vue';
+
+@Component({
+    components: {
+        headNav
+    }
+})
 export default class App extends Vue {
     exist = true;
     
-    provide() {
-        return {
-            reload: this.reload
-        }
+    get showHeadNav() {
+        return this.$route.path === '/' || this.$route.path === '/register';
     }
 
     created() {
@@ -32,6 +37,7 @@ export default class App extends Vue {
         this.exist = false;
         await this.$nextTick();
         this.exist = true;
+        this.$router.push('/');
     }
 }
 </script>

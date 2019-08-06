@@ -1,13 +1,15 @@
 <template>
     <div class="login" @keyup.enter="submit">
         <div class="content">
-            <div :class="input.name" v-for="(input, index) of inputList" :key="index">
+            <div :class="input.name" v-for="(input, index) of inputList" :key="index" style="position: relative">
                 <label :for="input.name" class="text">{{ input.info }}</label>
                 <input :type="index === 1 ? 'password' : 'text'" :id="input.name" class="input" 
-                       :autofocus="index === 0" :maxlength="input.maxlength" autocomplete="off"
+                       :autofocus="index === 0" :maxlength="input.maxlength" autocomplete="off" 
+                       :value="index === 0 ? getLocalUser.login_name : getLocalUser.password"
                        @input="check(index, $event.currentTarget)" :pattern="input.pattern" :data-msg="input.msg">
+                <i class="el-icon-close clear" v-if="index === 0" @click="clear"></i>
                 <div class="warning">
-                    <p class="tips"></p>
+                    <p class="tips" style="display: none"></p>
                 </div>
             </div>
             <div class="button-area">
@@ -20,12 +22,17 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+import { Action, Getter } from 'vuex-class';
 
 import animateCSS from '../utils/animateCSS';
 
 @Component
 export default class Login extends Vue {
+
+    @Action('saveLoginUser') saveLoginUser!: any;
+    @Action('clearLocalUser') clearLocalUser!: any;
+    @Getter('getLocalUser') getLocalUser!: any;
+
     nullMsg = '输入为空！！！';
     inputList = [
         {
@@ -44,8 +51,10 @@ export default class Login extends Vue {
         },
     ];
 
-    created() {
-    }
+    // created() {
+        // console.log(localStorage.getItem('user'));
+        // console.log(this.$store.getters.getUser);
+    // }
 
     //检查是否符合正则
     check(index: number, input: HTMLInputElement) {
@@ -87,9 +96,8 @@ export default class Login extends Vue {
                     this.sendErrorMsg();
                 } else {
                     let user = result.data.user;
-                    // console.log(user);
-                    // this.$store.dispatch('saveLoginUser', test);
-                    // this.$destroy('login');
+                    this.saveLoginUser(user);
+                    this.$destroy();
                     this.$router.push('/home');
                 }
             }).catch((err: any) => {
@@ -105,6 +113,43 @@ export default class Login extends Vue {
             message: '用户名或密码错误！！！',
             duration: 2000
         });
+    }
+
+    //确认是否删除缓存
+    clear() {
+        if (!this.getLocalUser.id) {
+            this.$message({
+                message: '暂无缓存'
+            })
+            return;
+        }
+        const h = this.$createElement;
+        this.$msgbox({
+            title: '消息',
+            message: h('p', undefined, [
+                h('span', undefined, '确定删除缓存？'),
+            ]),
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            beforeClose: (action, instance, done) => {
+                if (action === 'confirm') {
+                    setTimeout(() => {
+                        this.clearLocalUser();
+                        done();
+                    }, 500);
+                } else {
+                    done();
+                }
+            }
+        })
+        .then(() => {
+            this.$message({
+                type: 'success',
+                message: '删除成功'
+            })
+        })
+        .catch(() => {})
     }
 } 
 </script>
@@ -144,6 +189,14 @@ export default class Login extends Vue {
             .input:focus {
                 border-color: #2188ff;
                 box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075), 0 0 0 0.2em rgba(25, 108, 202, 0.58);
+            }
+            .clear {
+                position: absolute;
+                top: 55px;
+                right: 10px;
+                font-size: 30px;
+                cursor: pointer;
+                color: #eb7070;
             }
             .warning {
                 height: 20px;

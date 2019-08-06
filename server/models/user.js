@@ -40,8 +40,12 @@ class User {
                 if (!arr) return;
                 var user = new User({
                     id: arr.id,
+                    login_name: arr.login_name,
+                    password: arr.password,
                     name: arr.name,
+                    sex: arr.sex,
                     head_img: arr.head_img,
+                    register_time: arr.register_time,
                 });
                 u.forEach(item => {
                     user.ba_follow_list.push({
@@ -61,9 +65,13 @@ class User {
                         u = u[0];
                         if (!u) return;
                         var user = new User({
-                            id: arr.id,
-                            name: arr.name,
-                            head_img: arr.head_img,
+                            id: u.id,
+                            login_name: u.login_name,
+                            password: u.password,
+                            name: u.name,
+                            sex: u.sex,
+                            head_img: u.head_img,
+                            register_time: u.register_time,
                         });
                         return user;
                     })

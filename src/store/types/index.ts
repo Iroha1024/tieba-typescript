@@ -1,1 +1,2 @@
 export const SAVE_LOGIN_USER = 'SAVE_LOGIN_USER';
+export const CLEAR_LOCAL_USER = 'CLEAR_LOCAL_USER';

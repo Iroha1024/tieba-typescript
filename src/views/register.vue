@@ -23,12 +23,16 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
 
 import debounce from '../utils/debounce';
 import animateCSS from '../utils/animateCSS';
 
 @Component
 export default class Register extends Vue {
+
+    @Action('saveLoginUser') saveLoginUser!: any;
+
     nullMsg = '输入为空！！！';
     inputList = [
         {
@@ -161,11 +165,10 @@ export default class Register extends Vue {
                 })
                 .then((result: any) => {
                     if (result.data.success) {
-                        // console.log(result.data.user);
                         let user = result.data.user;
-                        // this.$store.dispatch('initUser', user);
+                        this.saveLoginUser(user);
                         loading.close();
-                        // this.$destroy('register');
+                        this.$destroy();
                         this.$router.push('/home');
                     }
                 }).catch((err: any) => {

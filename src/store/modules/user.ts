@@ -21,12 +21,20 @@ const state: State = {
 }
 
 const getters = {
-    getUser: (state: State) => state.user
+    getLocalUser: () => state.user.id ? state.user : JSON.parse(<string>localStorage.getItem('user')),
+    getUserHeadImg: () => getters.getLocalUser().head_img,
 }
 
 const mutations = {
     [types.SAVE_LOGIN_USER](state: State, user: User) {
-        state.user = user; 
+        state.user = user;
+        localStorage.setItem('user', JSON.stringify(user));
+    },
+    [types.CLEAR_LOCAL_USER](state: State) {
+        let user = {
+            login_name: ''
+        }
+        state.user = user;
         localStorage.setItem('user', JSON.stringify(user));
     }
 }
@@ -34,6 +42,9 @@ const mutations = {
 const actions = {
     saveLoginUser(context: { commit: Commit }, user: User) {
         context.commit(types.SAVE_LOGIN_USER, user);
+    },
+    clearLocalUser(context: { commit: Commit }) {
+        context.commit(types.CLEAR_LOCAL_USER);
     }
 }
 
