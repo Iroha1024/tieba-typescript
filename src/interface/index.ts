@@ -7,3 +7,11 @@ export interface User {
     head_img?: string
     resgister_time?: Date
 }
+
+export interface Ba {
+    id: number
+    name: string
+    url: string
+    img: string
+    special: boolean
+}

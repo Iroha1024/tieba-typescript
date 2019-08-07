@@ -1,6 +1,10 @@
 <template>
     <div class="home">
-        home
+        <el-scrollbar style="height: 100%">
+            <div class="home-content">
+                home
+            </div>
+        </el-scrollbar>
     </div>
 </template>
 
@@ -15,6 +19,13 @@ export default class Home extends Vue {
 
 <style lang="scss" scoped>
     .home {
-        background-color: $bg-color;
+        height: 100%;
+        .home-content {
+            background-color: #fff;
+            height: 1000px;
+            margin: 0 10%;
+            padding: 20px;
+            width: 80%;
+        }
     }
 </style>

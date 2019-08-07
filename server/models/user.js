@@ -6,7 +6,6 @@ class User {
         for (let key in user) {
             this[key] = user[key];
         }
-        this.ba_follow_list = [];
     }
 
     //检测用户名是否重名
@@ -26,57 +25,28 @@ class User {
             register_time: getDate()
         }
         return db('user').insert(user)
+            .then((user_id) => {
+                return user_id;
+            })
     }
 
-    //查询用户，若没有关注列表，则重新查询
+    //查询用户
     static selectUserByLoginName(login_name) {
         return db('user')
-            .join('user_ba', 'user.id', '=', 'user_ba.user_id')
-            .join('ba', 'ba.id', '=', 'user_ba.ba_id')
             .where('user.login_name', login_name)
             .select()
             .then(u => {
-                var arr = u[0];
-                if (!arr) return;
+                u = u[0];
+                if (!u) return;
                 var user = new User({
-                    id: arr.id,
-                    login_name: arr.login_name,
-                    password: arr.password,
-                    name: arr.name,
-                    sex: arr.sex,
-                    head_img: arr.head_img,
-                    register_time: arr.register_time,
+                    id: u.id,
+                    login_name: u.login_name,
+                    name: u.name,
+                    password: u.password,
+                    sex: u.sex,
+                    head_img: u.head_img,
+                    register_time: u.register_time,
                 });
-                u.forEach(item => {
-                    user.ba_follow_list.push({
-                        id: item.id,
-                        name: item.name,
-                        url: item.url,
-                        special: item.special,
-                    })
-                })
-                return Promise.reject(user);
-            })
-            .then(() => {
-                return db('user')
-                    .where('user.login_name', login_name)
-                    .select()
-                    .then(u => {
-                        u = u[0];
-                        if (!u) return;
-                        var user = new User({
-                            id: u.id,
-                            login_name: u.login_name,
-                            password: u.password,
-                            name: u.name,
-                            sex: u.sex,
-                            head_img: u.head_img,
-                            register_time: u.register_time,
-                        });
-                        return user;
-                    })
-            })
-            .catch(user => {
                 return user;
             })
     }     

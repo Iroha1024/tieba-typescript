@@ -1,7 +1,9 @@
 <template>
     <div id="app" v-if="exist">
         <head-nav @exit="reload" v-if="!showHeadNav"></head-nav>
-        <router-view />
+        <keep-alive>
+            <router-view />
+        </keep-alive>
     </div>
 </template>
 
@@ -47,5 +49,7 @@ export default class App extends Vue {
     #app {
         height: 100%;
         font-family: KaiTi_GB2312;
+        overflow-y: hidden;
+        background-color: $bg-color;
     }
 </style>

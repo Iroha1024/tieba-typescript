@@ -24,9 +24,10 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
+import { debounce } from 'lodash-decorators';
 
-import debounce from '../utils/debounce';
 import animateCSS from '../utils/animateCSS';
+import { User } from '../interface/';
 
 @Component
 export default class Register extends Vue {
@@ -115,19 +116,18 @@ export default class Register extends Vue {
     }
 
     //检查数据库中是否已存在此用户名
+    @debounce(1000)
     checkHasName(msg: HTMLParagraphElement, icon: HTMLElement, name: string) {
-        (debounce(this, () => {
-            this.$axios.get(this.$api.CHECK_LOGIN_NAME + name)
-            .then((result: any) => {
-                if (result.data.existed) {
-                    msg.style.display = 'block';
-                    icon.style.display = 'none';
-                    msg.innerText = '该用户名已存在';
-                }
-            }).catch((err: any) => {
-                console.log(err);
-            });
-        }, 1000))();
+        this.$axios.get(this.$api.CHECK_LOGIN_NAME + name)
+        .then((result: any) => {
+            if (result.data.existed) {
+                msg.style.display = 'block';
+                icon.style.display = 'none';
+                msg.innerText = '该用户名已存在';
+            }
+        }).catch((err: any) => {
+            console.log(err);
+        });
     } 
 
     //提交
@@ -165,7 +165,7 @@ export default class Register extends Vue {
                 })
                 .then((result: any) => {
                     if (result.data.success) {
-                        let user = result.data.user;
+                        let user: User = result.data.user;
                         this.saveLoginUser(user);
                         loading.close();
                         this.$destroy();

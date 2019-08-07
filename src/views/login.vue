@@ -24,6 +24,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 
+import { User } from '../interface/';
 import animateCSS from '../utils/animateCSS';
 
 @Component
@@ -31,7 +32,7 @@ export default class Login extends Vue {
 
     @Action('saveLoginUser') saveLoginUser!: any;
     @Action('clearLocalUser') clearLocalUser!: any;
-    @Getter('getLocalUser') getLocalUser!: any;
+    @Getter('getLocalUser') getLocalUser!: User;
 
     nullMsg = '输入为空！！！';
     inputList = [
@@ -51,10 +52,10 @@ export default class Login extends Vue {
         },
     ];
 
-    // created() {
+    created() {
         // console.log(localStorage.getItem('user'));
         // console.log(this.$store.getters.getUser);
-    // }
+    }
 
     //检查是否符合正则
     check(index: number, input: HTMLInputElement) {
@@ -81,6 +82,10 @@ export default class Login extends Vue {
         let arr = [username, password];
         //所有报错消失时，才允许登录
         let judge = arr.every((input: HTMLInputElement): boolean => {
+            if (!input.value) {
+                this.sendTipsMsg();
+                return false;
+            }
             let msgNode = <HTMLParagraphElement>(<HTMLElement>input.parentNode).getElementsByClassName('tips')[0];
             return msgNode.style.display === 'none';
         })
@@ -95,7 +100,7 @@ export default class Login extends Vue {
                     animateCSS('#submit', 'swing');
                     this.sendErrorMsg();
                 } else {
-                    let user = result.data.user;
+                    let user: User = result.data.user;
                     this.saveLoginUser(user);
                     this.$destroy();
                     this.$router.push('/home');
@@ -111,6 +116,15 @@ export default class Login extends Vue {
         this.$notify.error({
             title: '错误',
             message: '用户名或密码错误！！！',
+            duration: 2000
+        });
+    }
+
+    //发送提示
+    sendTipsMsg() {
+        this.$notify.error({
+            title: '错误',
+            message: '请输入完整信息！！！',
             duration: 2000
         });
     }

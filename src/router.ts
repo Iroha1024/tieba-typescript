@@ -22,6 +22,23 @@ const router = new Router({
             name: 'home',
             component: () => import('./views/home.vue')
         },
+        {
+            path: '/follow',
+            name: 'follow',
+            component: () => import('./views/follow.vue'),
+            children: [
+                {
+                    path: 'ba',
+                    name: 'ba',
+                    component: () => import('./components/follow/followBa.vue')
+                },
+                {
+                    path: 'user',
+                    name: 'user',
+                    component: () => import('./components/follow/followUser.vue')
+                },
+            ]
+        },
     ]
 })
 
