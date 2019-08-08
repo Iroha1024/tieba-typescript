@@ -2,9 +2,9 @@
     <div class="follow-ba">
         <p class="desc">关注的吧</p>
         <div class="ba-list">
-            <div class="ba-item" v-for="(ba, index) of ba_list" :key="index">
-                <div>{{ ba.name }}</div>
-                <img :src="ba.img" alt="">
+            <div class="ba-item" v-for="(ba, index) of ba_list" :key="index" :title="ba.name" @click="linkToBa(ba.url)">
+                <img v-lazy="ba.img">
+                <p>{{ ba.name }}</p>
             </div>
         </div>
     </div>
@@ -12,31 +12,21 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
 
-import { GET_BA_LIST } from '../../api/';
-import { User, Ba } from '../../interface/';
+import { Ba } from '../../interface/';
 
 @Component
 export default class FollowBa extends Vue {
 
-    @Getter('getLocalUser') getLocalUser!: User;
-
-    ba_list = <Ba[] | []>[];
+    ba_list: Ba[] | [] = [];
 
     created() {
-        this.requestBaList();
+        this.ba_list = JSON.parse(<string>sessionStorage.getItem('ba_list'));
     }
 
-    requestBaList() {
-        this.$axios.get(GET_BA_LIST + this.getLocalUser.id)
-            .then((result) => {
-                let ba_list = result.data.ba_list;
-                this.ba_list = ba_list;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    //跳转到贴吧页面
+    linkToBa(url: string) {
+        this.$router.push({ path: `/ba/${url}`});
     }
 
 }
@@ -47,6 +37,29 @@ export default class FollowBa extends Vue {
         font-size: 20px;
         .desc {
             font-size: 30px;
+            margin: 10px 20px;
+        }
+        .ba-list {
+            .ba-item {
+                width: fit-content;
+                height: 60px;
+                margin: 20px;
+                cursor: pointer;
+                background-color: #e4e4e4d6;
+                border-radius: 10px;
+                display: inline-block;
+                img {
+                    display: inline-block;
+                    height: 100%;
+                }
+                p {
+                    display: inline-block;
+                    padding: 0 20px;
+                    max-width: 100px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
         }
     }
 </style>

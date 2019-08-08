@@ -25,9 +25,9 @@ class User {
             register_time: getDate()
         }
         return db('user').insert(user)
-            .then((user_id) => {
-                return user_id;
-            })
+                .then((user_id) => {
+                    return user_id;
+                })
     }
 
     //查询用户
@@ -60,6 +60,55 @@ class User {
                     u = u[0];
                     if (!u) return false;
                     return password === u.password;
+                })
+    }
+
+    //关注
+    static follow(ba_id, user_id) {
+        return db('user_ba')
+                .where('user_ba.ba_id', ba_id)
+                .andWhere('user_ba.user_id', user_id)
+                .select()
+                .then(u => {
+                    if (u.length) {
+                        return Promise.resolve({ ba_id, user_id });
+                    } else {
+                        return Promise.reject({ ba_id, user_id });
+                    }
+                })
+                //取消关注
+                .then(({ ba_id, user_id }) => {
+                    return db('user_ba')
+                            .where('user_ba.ba_id', ba_id)
+                            .andWhere('user_ba.user_id', user_id)
+                            .del()
+                })
+                //若先无关注，则关注
+                .catch((err) => {
+                    return db('user_ba').insert({ ba_id, user_id, special: 0 });
+                })
+    }
+
+    //特别关注
+    static specialFollow(ba_id, user_id) {
+        return db('user_ba')
+                .where('user_ba.ba_id', ba_id)
+                .andWhere('user_ba.user_id', user_id)
+                .select()
+                .then(u => {
+                    if (u.length) {
+                        return Promise.resolve({ ba_id, user_id });
+                    } else {
+                        return Promise.reject({ ba_id, user_id });
+                    }
+                })
+                //特别关注
+                .then(({ ba_id, user_id }) => {
+                    return db.raw(`UPDATE user_ba SET special = ABS(special-1) WHERE user_id = ${user_id} AND ba_id = ${ba_id};`);
+                })
+                //若先无关注，则关注+特别关注
+                .catch(({ ba_id, user_id }) => {
+                    return db('user_ba').insert({ ba_id, user_id, special: 1});
                 })
     }
 

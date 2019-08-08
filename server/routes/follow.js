@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Ba = require('../models/ba');
+const User = require('../models/user');
 
 //根据user_id，查询关注吧列表
 router.get('/getBaList/:user_id', (req, res) => {

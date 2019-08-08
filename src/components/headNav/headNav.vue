@@ -1,6 +1,7 @@
 <template>
     <div class="head-nav">
         <div class="head-nav-content">
+            <div :class="{ logo: true, 'logo-active': logoActive }"></div>
             <el-tabs v-model="activeName" @tab-click="tabClick">
                 <el-tab-pane v-for="(tab, index) of tabList" :label="tab.label" :name="tab.name" :key="index">
                 </el-tab-pane>
@@ -43,13 +44,26 @@ export default class headNav extends Vue {
         
     }
 
+    //进入贴吧，logo变亮
+    get logoActive() {
+        let index = this.$route.path.indexOf('/ba');
+        return index === 0;
+    }
+
     //注销
     @Emit()
-    exit() {}
+    exit() {
+        //清除关注吧列表
+        sessionStorage.clear();
+    }
 
     tabClick(tab: any, event: any) {
-        this.$router.push(tab.name);
-      }
+        if (tab.name === '/follow') {
+            this.$router.push('/follow/ba');
+        } else {
+            this.$router.push(tab.name);
+        }
+    }
 }
 </script>
 
@@ -61,12 +75,28 @@ export default class headNav extends Vue {
         height: 70px;
         margin-bottom: 30px;
         background-color: #fff;
+        .logo {
+            height: 60px;
+            width: 130px;
+            margin-left: 50px;
+            background-image: url('../../assets/img/tieba.png');
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-bottom: 5px;
+        }
+        .logo-active {
+            background-image: url('../../assets/img/tieba.png'), linear-gradient(#1952e8, #00c8ff);
+            background-blend-mode: lighten;
+            background-size: cover;
+        }
         .head-nav-content {
             position: relative;
-            padding: 5px 100px;
+            padding: 5px 0;
+            margin: 0 auto;
+            width: 1000px;
             height: inherit;
             box-sizing: border-box;
-            box-shadow: 0 -1px 5px 0 #acacaca8 inset;
             .el-tabs {
                 display: inline-block;
                 padding: 0 50px;
@@ -77,7 +107,7 @@ export default class headNav extends Vue {
                 padding: 5px;
                 cursor: pointer;
                 position: absolute;
-                right: 150px;
+                right: 50px;
                 img {
                     width: 100%;
                 }

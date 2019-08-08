@@ -6,4 +6,9 @@ export const REGISTER_USER = '/register/register_user';
 export const LOGIN = '/login';
 
 //followBa.vue
-export const GET_BA_LIST = '/follow/getBaList/'
+export const GET_BA_LIST = '/follow/getBaList/';
+
+//ba.vue
+export const GET_BA_INFO = '/ba/getBaInfo/';
+export const FOLLOW = '/ba/follow';
+export const SPECIAL_FOLLOW = '/ba/specialFollow';

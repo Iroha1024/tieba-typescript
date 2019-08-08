@@ -13,5 +13,6 @@ export interface Ba {
     name: string
     url: string
     img: string
-    special: boolean
+    bg_img?: string
+    special?: boolean
 }

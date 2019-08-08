@@ -37,12 +37,6 @@ export default class Follow extends Vue {
         
     }
 
-    beforeRouteEnter(to: any, from: any, next: any) {
-        next((vm: any) => {
-            vm.$router.push('/follow/ba');
-        })
-    }
-
     tabClick(tab: any, event: any) {
         this.$router.push(tab.name);
     }
@@ -53,11 +47,7 @@ export default class Follow extends Vue {
     .follow {
         height: 100%;
         .follow-content {
-            background-color: #fff;
-            height: 1000px;
-            margin: 0 10%;
-            padding: 20px;
-            width: 80%;
+            @include layout;
         }
     }
 </style>

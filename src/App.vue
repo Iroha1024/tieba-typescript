@@ -1,7 +1,7 @@
 <template>
     <div id="app" v-if="exist">
         <head-nav @exit="reload" v-if="!showHeadNav"></head-nav>
-        <keep-alive>
+        <keep-alive exclude="tieba">
             <router-view />
         </keep-alive>
     </div>

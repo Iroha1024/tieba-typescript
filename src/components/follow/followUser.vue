@@ -1,6 +1,6 @@
 <template>
     <div class="follow-user">
-        关注的用户
+        <p class="desc">关注的用户</p>
     </div>
 </template>
 
@@ -14,5 +14,8 @@ export default class FollowUser extends Vue {
 </script>
 
 <style lang="scss" scoped>
-    
+    .desc {
+        font-size: 30px;
+        margin: 10px 20px;
+    }
 </style>

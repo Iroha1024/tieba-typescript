@@ -5,6 +5,7 @@ const login = require('./routes/login');
 const register = require('./routes/register');
 const home = require('./routes/home');
 const follow = require('./routes/follow');
+const ba = require('./routes/ba');
 // const info = require('./routes/info');
 
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use('/api/login', login);
 app.use('/api/register', register);
 app.use('/api/home', home);
 app.use('/api/follow', follow);
+app.use('/api/ba', ba);
 // app.use('/api/info', info);
 
 app.listen(3000)

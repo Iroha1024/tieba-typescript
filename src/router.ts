@@ -29,16 +29,22 @@ const router = new Router({
             children: [
                 {
                     path: 'ba',
-                    name: 'ba',
+                    name: 'follow_ba',
                     component: () => import('./components/follow/followBa.vue')
                 },
                 {
                     path: 'user',
-                    name: 'user',
+                    name: 'follow_user',
                     component: () => import('./components/follow/followUser.vue')
                 },
             ]
         },
+        {
+            path: '/ba/:url',
+            name: 'ba',
+            component: () => import('./views/ba.vue'),
+            props: true
+        }
     ]
 })
 

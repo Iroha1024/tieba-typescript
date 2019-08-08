@@ -23,11 +23,29 @@ class Ba {
                         name: b.name,
                         url: b.url,
                         img: b.img,
-                        special: b.special,
+                        special: Boolean(b.special),
                     })
                     ba_list.push(ba);
                 })
                 return ba_list;
+            })
+    }
+
+    //根据url，查询吧信息（非空）
+    static selectBaByUrl(url) {
+        return db('ba')
+            .where('ba.url', url)
+            .select()
+            .then(b => {
+                b = b[0];
+                let ba = new Ba({
+                    id: b.id,
+                    name: b.name,
+                    url: b.url,
+                    img: b.img,
+                    bg_img: b.bg_img
+                })
+                return ba;
             })
     }
 
