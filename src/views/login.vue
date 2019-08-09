@@ -94,7 +94,7 @@ export default class Login extends Vue {
                 username: username.value,
                 password: password.value,
             })
-            .then((result: any) => {
+            .then((result) => {
                 //用户名或密码错误
                 if (!result.data.success) {
                     animateCSS('#submit', 'swing');
@@ -105,7 +105,7 @@ export default class Login extends Vue {
                     this.$destroy();
                     this.$router.push('/home');
                 }
-            }).catch((err: any) => {
+            }).catch((err) => {
                 console.log(err);
             });
         }

@@ -119,13 +119,13 @@ export default class Register extends Vue {
     @debounce(1000)
     checkHasName(msg: HTMLParagraphElement, icon: HTMLElement, name: string) {
         this.$axios.get(this.$api.CHECK_LOGIN_NAME + name)
-        .then((result: any) => {
+        .then((result) => {
             if (result.data.existed) {
                 msg.style.display = 'block';
                 icon.style.display = 'none';
                 msg.innerText = '该用户名已存在';
             }
-        }).catch((err: any) => {
+        }).catch((err) => {
             console.log(err);
         });
     } 
@@ -163,7 +163,7 @@ export default class Register extends Vue {
                     login_name: username.value,
                     password: password.value,
                 })
-                .then((result: any) => {
+                .then((result) => {
                     if (result.data.success) {
                         let user: User = result.data.user;
                         this.saveLoginUser(user);
@@ -171,7 +171,7 @@ export default class Register extends Vue {
                         this.$destroy();
                         this.$router.push('/home');
                     }
-                }).catch((err: any) => {
+                }).catch((err) => {
                     console.log(err);
                 });
             }

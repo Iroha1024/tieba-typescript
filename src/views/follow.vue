@@ -45,7 +45,7 @@ export default class Follow extends Vue {
 
 <style lang="scss" scoped>
     .follow {
-        height: 100%;
+        @include page-height;
         .follow-content {
             @include layout;
         }

@@ -31,7 +31,7 @@ class Ba {
             })
     }
 
-    //根据url，查询吧信息（非空）
+    //根据url，查询吧信息
     static selectBaByUrl(url) {
         return db('ba')
             .where('ba.url', url)

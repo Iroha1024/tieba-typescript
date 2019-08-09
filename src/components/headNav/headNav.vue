@@ -72,8 +72,8 @@ export default class headNav extends Vue {
         font-size: 40px;
     }
     .head-nav {
-        height: 70px;
-        margin-bottom: 30px;
+        height: $head-nav-height;
+        border-bottom: 1px solid $border-color;
         background-color: #fff;
         .logo {
             height: 60px;

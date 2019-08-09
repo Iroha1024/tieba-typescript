@@ -16,3 +16,8 @@ export interface Ba {
     bg_img?: string
     special?: boolean
 }
+
+export interface Article {
+    title: string
+    content: string
+}

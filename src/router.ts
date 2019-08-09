@@ -44,15 +44,33 @@ const router = new Router({
             name: 'ba',
             component: () => import('./views/ba.vue'),
             props: true
-        }
+        },
+        {
+            path: '/error/:type',
+            name: 'error',
+            component: () => import('./views/error.vue'),
+            props: true
+        },
     ]
 })
 
 router.beforeEach((to, from, next) => {
     let id = store.getters.getLocalUser.id;
-    if (id || to.path === '/register') {
+    //若是前往注册页面，放行
+    if (to.path === '/register') {
         next();
+    }
+    //登录成功后
+    if (id) {
+        //页面不匹配，跳转至error页面
+        if (to.matched.length === 0) {
+            next('/error/default');
+        } else {
+            //放行
+            next();
+        }
     } else {
+        //未登录，则跳转至登录页面
         if (to.path == '/') { 
             next();
         } else {
