@@ -25,6 +25,9 @@ export default class Error extends Vue {
             case 'ba':
                 this.msg = '该贴吧并不存在！！！';
                 break;
+            case 'article':
+                this.msg = '该贴并不存在！！！';
+                break;
             default:
                 this.msg = '资源地址错误！！！';
                 break;

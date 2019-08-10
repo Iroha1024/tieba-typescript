@@ -1,9 +1,10 @@
 <template>
     <div id="app" v-if="exist">
         <head-nav @exit="reload" v-if="!showHeadNav"></head-nav>
-        <keep-alive exclude="tieba">
-            <router-view />
+        <keep-alive>
+            <router-view :key="$route.path"/>
         </keep-alive>
+        <footer></footer>
     </div>
 </template>
 

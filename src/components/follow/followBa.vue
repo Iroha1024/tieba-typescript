@@ -13,7 +13,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
-import { Ba } from '../../interface/';
+import { Ba } from '@/interface/';
 
 @Component
 export default class FollowBa extends Vue {

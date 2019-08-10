@@ -1,7 +1,6 @@
 <template>
     <div class="ba-article">
-        <div class="title">{{ article.title }}</div>
-        <!-- <router-link class="title">{{ article.title }}</router-link> -->
+        <router-link :to="{ path: `/article/${article.id}` }" class="title">{{ article.title }}</router-link>
         <div class="article-content">{{ article.content | content }}</div>
         <div class="img-list">
             <img v-lazy="img" v-for="(img, index) of img_list" :key="index" v-if="index < 3">
@@ -12,7 +11,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { Article } from '../../interface/';
+import { Article } from '@/interface/';
 
 @Component({
     filters: {
@@ -32,6 +31,7 @@ export default class BaArticle extends Vue {
         this.getImgList();
     }
 
+    //获取帖子展示图片
     getImgList() {
         let img_list = this.article.content.match(/\[(.+?)\]/g);
         if (!img_list) return;
@@ -54,6 +54,7 @@ export default class BaArticle extends Vue {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            display: block;
         }
         .article-content {
             font-size: 20px;

@@ -13,3 +13,12 @@ export const GET_BA_INFO = '/ba/getBaInfo/';
 export const FOLLOW = '/ba/follow';
 export const SPECIAL_FOLLOW = '/ba/specialFollow';
 export const GET_ARTICLE_LIST = '/ba/getArticleList/';
+
+//article.vue
+export const GET_ARTICLE = '/article/getArticle/';
+export const GET_REPLIES = '/article/getReplies/';
+export const GEI_FLOOR_ID = '/article/getFloorId/';
+export const REPLY = '/article/reply/';
+
+//reply.vue
+export const FLOOR_REPLY = '/article/reply';

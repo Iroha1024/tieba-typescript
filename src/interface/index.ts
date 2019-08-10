@@ -18,6 +18,22 @@ export interface Ba {
 }
 
 export interface Article {
+    id?: number
     title: string
     content: string
+    user_name: string
+    head_img : string
+    publish_time: Date
+}
+
+export interface Reply {
+    a_id?: number
+    user_id?: number
+    user_name?: string
+    head_img?: string
+    content: string
+    floor_id: number
+    is_owner: boolean
+    target: string | null
+    reply_time?: Date
 }

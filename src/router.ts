@@ -46,6 +46,12 @@ const router = new Router({
             props: true
         },
         {
+            path: '/article/:id',
+            name: 'article',
+            component: () => import('./views/article.vue'),
+            props: true
+        },
+        {
             path: '/error/:type',
             name: 'error',
             component: () => import('./views/error.vue'),

@@ -13,7 +13,7 @@ class Ba {
             .join('user_ba', 'user.id', '=', 'user_ba.user_id')
             .join('ba', 'ba.id', '=', 'user_ba.ba_id')
             .where('user.id', user_id)
-            .select()
+            .select('*', 'user.name as user_name')
             .then(b => {
                 if (b === []) return b;
                 let ba_list = [];
