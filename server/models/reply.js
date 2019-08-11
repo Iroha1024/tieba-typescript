@@ -20,12 +20,14 @@ class Reply {
                 let replies_list = [];
                 r.forEach(r => {
                     let reply = new Reply({
+                        user_id: r.user_id,
                         user_name: r.name,
                         head_img: r.head_img,
                         content: r.content,
                         floor_id: r.floor_id,
                         is_owner: Boolean(r.is_owner),
                         target: r.target,
+                        target_name: r.target_name,
                         reply_time: r.reply_time,
                     })
                     replies_list.push(reply);

@@ -58,11 +58,7 @@ export default class headNav extends Vue {
     }
 
     tabClick(tab: any, event: any) {
-        if (tab.name === '/follow') {
-            this.$router.push('/follow/ba');
-        } else {
-            this.$router.push(tab.name);
-        }
+        this.$router.push(tab.name);
     }
 }
 </script>

@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="reply-content">
-                    <reply v-for="(reply, index) of replies_list" :key="index" :reply="reply" 
+                    <reply v-for="(reply, index) of replies_list" :key="index" :reply="reply" :order="index"
                             :floor_replies_list="floor_replies_list" :id="id" @refresh="getReplies">
                     </reply>
                 </div>
@@ -89,23 +89,26 @@ export default class Article_ extends Vue {
     //格式化内容
     update(info: Article | Reply, img_max_height: number) {
         if (!info.content) return;
-        let text_list = <RegExpMatchArray>info.content.match(/\{(.+?)\}/g);
+        let text_list = <String[]>info.content.match(/\{(.+?)\}/g);
         let img_list = info.content.match(/\[(.+?)\]/g);
-        text_list.forEach(text => {
-            text = text.substring(1, text.length - 1);
-            info.content = info.content.replace(/\{(.+?)\}/, `
-                <p style="padding:10px 0;">${text}</p>
-            `)
-        });
+        if (text_list) {
+            text_list.forEach(text => {
+                text = text.substring(1, text.length - 1);
+                info.content = info.content.replace(/\{(.+?)\}/, `
+                    <p style="padding:10px 0;">${text}</p>
+                `)
+            });
+        }
         if (!img_list) return;
         img_list.forEach(img => {
             img = img.substring(1, img.length - 1);
             info.content = info.content.replace(/\[(.+?)\]/, `
                 <img src="${img}" 
-                    style="max-height: ${img_max_height}px; object-fit: contain; max-width: 100%; display: block;">
+                    style="max-height: ${img_max_height}px; object-fit: contain; max-width: 100%; display: block; margin-bottom: 10px;">
                 </img>
             `)
         });
+        console.log(img_list);
     }
 
     //获取回复
@@ -124,7 +127,7 @@ export default class Article_ extends Vue {
         this.floor_replies_list = replies_list.filter((reply: Reply) => !reply.is_owner);
         this.replies_list = replies_list.filter((reply: Reply) => reply.is_owner);
         this.replies_list.forEach((reply: Reply) => {
-            this.update(reply, 400);
+            this.update(reply, 500);
         })
     }
 
@@ -159,6 +162,7 @@ export default class Article_ extends Vue {
                     content: text,
                     is_owner: true,
                     target: null,
+                    target_name: null,
                     floor_id: floor_id + 1
                 }
                 this.submitReply(reply);

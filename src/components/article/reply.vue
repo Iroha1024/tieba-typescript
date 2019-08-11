@@ -10,21 +10,32 @@
             <div v-html="reply.content"></div>
             <!-- <el-collapse-transition> -->
                 <div class="floor-reply" v-show="isActivated">
-                    <div class="floor-reply-item" v-for="(floor_reply, key) of floor_replies_list" :key="key" 
+                    <div class="floor-reply-item" v-for="(floor_reply, index) of floor_replies_list" :key="index" 
                         v-if="reply.floor_id == floor_reply.floor_id">
                         <div class="floor-head-img">
                             <img v-lazy="floor_reply.head_img">
                         </div>
-                        <div class="floor-user-name" :title="floor_reply.user_name">{{ floor_reply.user_name }}</div>
-                        <div class="floor-content" v-html="floor_reply.content.substring(1, floor_reply.content.length - 1)"></div>
+                        <div class="floor-reply-content">
+                            <span class="floor-user-name" :title="floor_reply.user_name">{{ floor_reply.user_name }}</span>
+                            <span v-if="floor_reply.target">回复 {{ floor_reply.target_name }} : </span>
+                            <span class="floor-content" v-html="floor_reply.content.substring(1, floor_reply.content.length - 1)"></span>
+                            <div class="floor-reply-info">
+                                <div class="floor-reply-time">{{ floor_reply.reply_time | time }}</div>
+                                <div class="reply-to-others-button" @click="replyOthers(floor_reply.user_id, floor_reply.user_name)">回复</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="my-reply">
+                        <div class="at-div">
+                            <span class="at"></span>
+                            <span class="clear" style="display: none" @click="clearAtInfo">清除</span>
+                        </div>
                         <div class="text floor-reply-div" contenteditable="true"></div>
                         <el-button 
+                            class="submit"
                             type="primary" 
                             icon="el-icon-upload" 
-                            :data-index="reply.floor_id"
-                            @click="submit($event.currentTarget)">
+                            @click="submit($event.currentTarget, reply.floor_id)">
                                 发表
                         </el-button>
                     </div>
@@ -62,6 +73,7 @@ export default class Reply_ extends Vue {
     @Prop() reply!: Reply;
     @Prop() floor_replies_list!: Reply[] | [];
     @Prop(String) id!: string;
+    @Prop(Number) order!: number;
 
     isActivated = false;
 
@@ -71,10 +83,34 @@ export default class Reply_ extends Vue {
         div.innerHTML = this.isActivated ? '收起回复' : '回复'
     }
 
+    //清除@消息
+    clearAtInfo() {
+        let at = <HTMLSpanElement>document.getElementsByClassName('at')[this.order];
+        let clear = <HTMLSpanElement>document.getElementsByClassName('clear')[this.order];
+        at.style.display = 'none';
+        clear.style.display = 'none';
+        let button = <HTMLButtonElement>document.getElementsByClassName('submit')[this.order];
+        button.removeAttribute('target');
+        button.removeAttribute('target_name');
+    }
+
+    //回复他人
+    replyOthers(user_id: number, user_name: string) {
+        let button = <HTMLButtonElement>document.getElementsByClassName('submit')[this.order];
+        button.setAttribute('target', String(user_id));
+        button.setAttribute('target_name', user_name);
+        let at = <HTMLSpanElement>document.getElementsByClassName('at')[this.order];
+        let clear = <HTMLSpanElement>document.getElementsByClassName('clear')[this.order];
+        at.style.display = 'inline-block';
+        at.innerText = '@' + user_name;
+        clear.style.display = 'inline-block';
+    }
+
     //提交
-    submit(button: HTMLButtonElement) {
-        let index = Number.parseInt(<string>button.getAttribute('data-index'));
-        let div = <HTMLDivElement>document.getElementsByClassName('floor-reply-div')[index - 2];
+    submit(button: HTMLButtonElement, floor_id: number) {
+        let target = Number.parseInt(<string>button.getAttribute('target'));
+        let target_name = button.getAttribute('target_name');
+        let div = <HTMLDivElement>document.getElementsByClassName('floor-reply-div')[this.order];
         let text = div.innerHTML;
         //加上换行符
         text = '{' + text.replace(/<div>/g, '<br>').replace(/<\/div>/g, '') + '}';
@@ -92,10 +128,11 @@ export default class Reply_ extends Vue {
         let reply: Reply = {
             a_id: Number(this.id),
             user_id: this.getLocalUser.id,
-            floor_id: index,
+            floor_id,
             content: text,
             is_owner: false,
-            target: null,
+            target,
+            target_name
         }
         this.submitFloorReplt(reply, div);
     }
@@ -107,9 +144,10 @@ export default class Reply_ extends Vue {
         })
         .then((result) => {
             if (result.data.success) {
-                //发送成功后刷新，并清空评论区
+                //发送成功后刷新，并清空评论区,再清空@信息
                 this.refresh();
                 div.innerHTML = '';
+                this.clearAtInfo();
             }
         })
         .catch((err) => {
@@ -163,28 +201,57 @@ export default class Reply_ extends Vue {
                     display: flex;
                     padding-bottom: 20px;
                     .floor-head-img {
-                        max-width: 50px;
                         img {
-                            width: 100%;
+                            width: 60px;
                         }
                     }
-                    .floor-user-name {
-                        max-width: 100px;
-                        width: fit-content;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        padding-left: 10px;
-                    }
-                    .floor-content::before {
-                        content: '：'
-                    }
-                    .floor-content {
-                        width: fit-content;
+                    .floor-reply-content {
+                        padding: 0 10px;
+                        width: 100%;
+                        .floor-user-name {
+                            word-break: break-word;
+                            padding-right: 10px;
+                            &::after {
+                                content: ' :'
+                            }
+                        }
+                        .floor-reply-info {
+                            position: relative;
+                            padding-top: 10px;
+                            height: 30px;
+                            line-height: 30px;
+                            .floor-reply-time {
+                                color: #ccc;
+                                position: absolute;
+                            }
+                            .reply-to-others-button {
+                                position: absolute;
+                                right: 20px;
+                                &:hover {
+                                    cursor: pointer;
+                                    color: #3dd2ec;
+                                }
+                            }
+                        }
                     }
                 }
                 .my-reply {
                     padding: 10px 0 50px;
                     position: relative;
+                    .at-div {
+                        position: absolute;
+                        top: -20px;
+                        .at {
+                            color: #f00;
+                        }
+                        .clear {
+                            padding-left: 20px;
+                            &:hover {
+                                cursor: pointer;
+                                color: #3dd2ec; 
+                            }
+                        }
+                    }
                     .text {
                         min-height: 80px;
                         max-height: 150px;

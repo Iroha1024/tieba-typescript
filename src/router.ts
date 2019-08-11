@@ -20,11 +20,25 @@ const router = new Router({
         {
             path: '/home',
             name: 'home',
-            component: () => import('./views/home.vue')
+            redirect: '/home/recommend',
+            component: () => import('./views/home.vue'),
+            children: [
+                {
+                    path: 'recommend',
+                    name: 'recommend',
+                    component: () => import('./components/home/homeRecommend.vue')
+                },
+                {
+                    path: 'specialFollow',
+                    name: 'specialFollow',
+                    component: () => import('./components/home/homeSpecialFollow.vue')
+                },
+            ]
         },
         {
             path: '/follow',
             name: 'follow',
+            redirect: '/follow/ba',
             component: () => import('./views/follow.vue'),
             children: [
                 {

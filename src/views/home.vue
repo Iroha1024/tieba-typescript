@@ -2,7 +2,11 @@
     <div class="home">
         <el-scrollbar style="height: 100%">
             <div class="home-content">
-                home
+                <el-tabs v-model="activeName" @tab-click="tabClick" type="card">
+                    <el-tab-pane v-for="(tab, index) of tabList" :label="tab.label" :name="tab.name" :key="index">
+                    </el-tab-pane>
+                </el-tabs>
+                <router-view></router-view>
             </div>
         </el-scrollbar>
     </div>
@@ -19,8 +23,31 @@ export default class Home extends Vue {
 
     @Getter('getLocalUser') getLocalUser!: User;
 
+        tabList = [
+        {
+            label: '推荐',
+            name: '/home/recommend'
+        },
+        {
+            label: '特别关注',
+            name: '/home/specialFollow'
+        },
+    ]
+
     created() {
         this.requestBaList();
+    }
+
+    get activeName() {
+        return this.$route.path;
+    }
+
+    set activeName(val) {
+        
+    }
+
+    tabClick(tab: any, event: any) {
+        this.$router.push(tab.name);
     }
 
     //请求关注吧列表

@@ -8,6 +8,12 @@ export const LOGIN = '/login';
 //home.vue
 export const GET_BA_LIST = '/follow/getBaList/';
 
+//homeRecommend.vue
+export const GET_RECOMMEND_ARTICLE_LIST = '/home/getRecommendArticleList';
+
+//homeSpecialFollow.vue
+export const GET_SPECIAL_FOLLOW_ARTICLE_LIST = '/home/getSpecialFollowArticleList/';
+
 //ba.vue
 export const GET_BA_INFO = '/ba/getBaInfo/';
 export const FOLLOW = '/ba/follow';

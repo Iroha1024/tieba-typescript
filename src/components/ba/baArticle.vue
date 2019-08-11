@@ -17,7 +17,7 @@ import { Article } from '@/interface/';
     filters: {
         //将含有图片的字符串过滤
         content(val: string) {
-            return val.replace(/\[(.+?)\]/g, '');
+            return val.replace('{', '').replace('}', '').replace(/\[(.+?)\]/g, '');
         }
     }
 })

@@ -166,21 +166,6 @@ export default class Tieba extends Vue {
         .catch((err) => {
             console.log(err);
         });
-        // let a = {
-        //     id: 1,
-        //     content: "2019DOTA2国际邀请赛（以下简称TI9）是全体DOTA2玩家的盛大聚会，届时将有无数DOTA2玩家前往赛事举办地梅赛德斯-奔驰文化中心。继玩家前往比赛场馆的重要换乘站——世纪大道地铁站后，近日，乘地铁前往梅赛德斯-奔驰文化中心的必经站点中华艺术宫地铁站也已完成DOTA2风格装扮，让玩家踏出地铁，就沉浸在DOTA2的世界之中，感受到DOTA2国际邀请赛的独特氛围！[https://imgsa.baidu.com/forum/w%3D580/sign=c0fda135af44ad342ebf878fe0a00c08/e3935ba98226cffc4fc9bc6ab7014a90f403ea59.jpg]本次完成DOTA2国际邀请赛主题装扮的是中华艺术宫地铁站，是上海轨道交通8号线的重要一站。本站4号口直通TI9主赛事场馆梅赛德斯-奔驰文化中心，是前往观看TI9的必经一站。目前，地铁站以换上了DOTA2主题的宣传内容，不仅会让DOTA2玩家体会到越来越浓的国际邀请赛气氛，也吸引了众多市民来了解TI9和DOTA2！[https://imgsa.baidu.com/forum/w%3D580/sign=51d6dd2cb94543a9f51bfac42e158a7b/c9c0e5faaf51f3de5640babc9aeef01f3829794a.jpg]“以热血铸梦想，以荣耀塑辉煌，DOTA2，这一次我将跟随你的脚步，一起拼到底，赢下去。”[https://imgsa.baidu.com/forum/w%3D580/sign=a7349b86d3c451daf6f60ce386ff52a5/31ee14d7912397dd1da59bdc5782b2b7d2a28764.jpg]",
-        //     title: "这是我们的主场，上海地铁中华艺术宫站期待"
-        // }
-        // this.article_list = [
-        //     a,
-        //     a,
-        //     a,
-        //     a,
-        //     a,
-        //     a,
-        //     a,
-        //     a,
-        // ]
     }
 
 }

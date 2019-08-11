@@ -34,6 +34,7 @@ export interface Reply {
     content: string
     floor_id: number
     is_owner: boolean
-    target: string | null
+    target: number | null
+    target_name: string | null
     reply_time?: Date
 }

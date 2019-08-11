@@ -45,6 +45,42 @@ class Article {
                 return article;
             })
     }
+
+    //查询推荐帖子
+    static selectRecommendArticleList() {
+        return Article.selectArticleListByUrl('recommend')
+    }
+
+    //查询特别关注吧的帖子
+    static selecSpecialFollowArticleList(id_list) {
+        let article_list = [];
+        let sql;
+        let sql2 = 'SELECT * FROM article  WHERE ba_id = ';
+        let sql3 = ' OR ba_id = ';
+        let sql4 = ' ORDER BY update_time DESC;';
+        id_list.forEach((id, index) => {
+            if (index === 0) {
+                sql = sql2 + id;
+            } else {
+                sql += sql3 + id;
+            }
+        })
+        sql += sql4; 
+        return db.raw(sql)
+                .then(a => {
+                    a = a[0];
+                    a.forEach(a => {
+                        let article = new Article({
+                            id: a.id,
+                            title: a.title,
+                            content: a.content,
+                        })
+                        article_list.push(article);
+                    })
+                    return article_list;
+                })
+    }
+
 }
 
 module.exports = Article;

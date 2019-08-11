@@ -2,7 +2,7 @@
     <div class="follow">
         <el-scrollbar style="height: 100%">
             <div class="follow-content">
-                 <el-tabs v-model="activeName" @tab-click="tabClick" type="card">
+                <el-tabs v-model="activeName" @tab-click="tabClick" type="card">
                     <el-tab-pane v-for="(tab, index) of tabList" :label="tab.label" :name="tab.name" :key="index">
                     </el-tab-pane>
                 </el-tabs>

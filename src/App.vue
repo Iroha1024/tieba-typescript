@@ -1,9 +1,9 @@
 <template>
     <div id="app" v-if="exist">
         <head-nav @exit="reload" v-if="!showHeadNav"></head-nav>
-        <keep-alive>
+        <!-- <keep-alive> -->
             <router-view :key="$route.path"/>
-        </keep-alive>
+        <!-- </keep-alive> -->
         <footer></footer>
     </div>
 </template>
