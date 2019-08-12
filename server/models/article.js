@@ -81,6 +81,45 @@ class Article {
                 })
     }
 
+    //模糊查询帖子
+    static fuzzyQuery(keyword) {
+        return db.raw(`SELECT * FROM article WHERE POSITION('${keyword}' IN title) OR POSITION('${keyword}' IN content)`)
+            .then(a => {
+                a = a[0];
+                if (!a.length) return [];
+                let article_list = [];
+                a.forEach(a => {
+                    let article = new Article({
+                        id: a.id,
+                        title: a.title,
+                        content: a.content,
+                    })
+                    article_list.push(article);
+                })
+                return article_list;
+            })
+    }
+
+    //根据用户id，获取帖子
+    static selectArticleListById(id) {
+        return db('article')
+                .where('article.user_id', '=', id)
+                .select()
+                .then(a => {
+                    let article_list = [];
+                    if (!a.length) return [];
+                    a.forEach(a => {
+                        let article = new Article({
+                            id: a.id,
+                            title: a.title,
+                            content: a.content,
+                        })
+                        article_list.push(article);
+                    })
+                    return article_list;
+                })
+    }
+
 }
 
 module.exports = Article;

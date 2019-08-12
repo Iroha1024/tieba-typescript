@@ -1,14 +1,19 @@
 <template>
     <div class="head-nav">
         <div class="head-nav-content">
-            <div :class="{ logo: true, 'logo-active': logoActive }"></div>
+            <div :class="{ logo: true, 'logo-active': logoActive }" @click="back"></div>
             <el-tabs v-model="activeName" @tab-click="tabClick">
                 <el-tab-pane v-for="(tab, index) of tabList" :label="tab.label" :name="tab.name" :key="index">
                 </el-tab-pane>
             </el-tabs>
+            <div class="search" @keypress.enter="search">
+                <input type="text" id="search" maxlength="20">
+                <i class="el-icon-search" @click="search"></i>
+            </div>
             <el-dropdown class="user" trigger="click">
                 <img v-lazy="imgUrl">
                 <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item icon="el-icon-user" @click.native="linkToInfo">个人</el-dropdown-item>
                     <el-dropdown-item icon="el-icon-switch-button" @click.native="exit()">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -20,10 +25,13 @@
 import { Component, Vue, Emit } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 
+import { User } from '@/interface/';
+
 @Component
 export default class headNav extends Vue {
 
     @Getter('getUserHeadImg') imgUrl!: string;
+    @Getter('getLocalUser') getLocalUser!: User;
 
     tabList = [
         {
@@ -50,6 +58,14 @@ export default class headNav extends Vue {
         return index === 0;
     }
 
+    back() {
+        this.$router.go(-1);
+    }
+
+    linkToInfo() {
+        this.$router.push({ path: `/info/${this.getLocalUser.id}` });
+    }
+
     //注销
     @Emit()
     exit() {
@@ -60,12 +76,23 @@ export default class headNav extends Vue {
     tabClick(tab: any, event: any) {
         this.$router.push(tab.name);
     }
+
+    //搜索
+    search() {
+        let keyword = (<HTMLInputElement>document.getElementById('search')).value;
+        if (!keyword) return;
+        this.$router.push({ path: `/search/${keyword}` });
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-    /deep/ .el-tabs {
-        font-size: 40px;
+    /deep/ .el-tabs__item {
+        font-size: 18px;
+    }
+    /deep/ .el-dropdown-menu__item {
+        font-size: 18px !important;
+        padding: 10px 20px !important;
     }
     .head-nav {
         height: $head-nav-height;
@@ -80,6 +107,9 @@ export default class headNav extends Vue {
             background-repeat: no-repeat;
             background-size: cover;
             margin-bottom: 5px;
+            &:hover {
+                cursor: pointer;
+            }
         }
         .logo-active {
             background-image: url('../../assets/img/tieba.png'), linear-gradient(#1952e8, #00c8ff);
@@ -96,6 +126,33 @@ export default class headNav extends Vue {
             .el-tabs {
                 display: inline-block;
                 padding: 0 50px;
+            }
+            .search {
+                display: inline-block;
+                position: absolute;
+                input {
+                    height: 30px;
+                    width: 250px;
+                    border: 1px solid #ccc;
+                    margin: 10px;
+                    padding: 5px 40px 5px 20px;
+                    border-radius: 5px;
+                    font-size: 20px;
+                    &:focus {
+                        border: 1px solid #000;
+                    }
+                }
+                i {
+                    font-size: 30px;
+                    position: absolute;
+                    left: 285px;
+                    top: 17px;
+                    color: #ccc;
+                    &:hover {
+                        cursor: pointer;
+                        color: #00c8ff;
+                    }
+                }
             }
             .user {
                 width: 50px;

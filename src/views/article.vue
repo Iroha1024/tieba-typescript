@@ -108,7 +108,6 @@ export default class Article_ extends Vue {
                 </img>
             `)
         });
-        console.log(img_list);
     }
 
     //获取回复
@@ -194,7 +193,7 @@ export default class Article_ extends Vue {
 
 <style lang="scss" scoped>
     .article {
-        @include page-height;
+        @include view-height;
         letter-spacing: 1px;
         .article-content {
             @include layout;

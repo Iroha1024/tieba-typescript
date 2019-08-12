@@ -28,6 +28,9 @@ export default class Error extends Vue {
             case 'article':
                 this.msg = '该贴并不存在！！！';
                 break;
+            case 'user':
+                this.msg = '该用户并不存在！！！';
+                break;
             default:
                 this.msg = '资源地址错误！！！';
                 break;
@@ -47,7 +50,7 @@ export default class Error extends Vue {
 
 <style lang="scss" scoped>
     .error {
-        @include page-height;
+        @include view-height;
         .error-content {
             @include layout;
             img {

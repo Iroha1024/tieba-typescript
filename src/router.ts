@@ -44,7 +44,7 @@ const router = new Router({
                 {
                     path: 'ba',
                     name: 'follow_ba',
-                    component: () => import('./components/follow/followBa.vue')
+                    component: () => import('./components/follow/followBa/followBa.vue')
                 },
                 {
                     path: 'user',
@@ -52,6 +52,18 @@ const router = new Router({
                     component: () => import('./components/follow/followUser.vue')
                 },
             ]
+        },
+        {
+            path: '/search/:keyword',
+            name: 'search',
+            component: () => import('./views/search.vue'),
+            props: true
+        },
+        {
+            path: '/info/:id',
+            name: 'info',
+            component: () => import('./views/info.vue'),
+            props: true
         },
         {
             path: '/ba/:url',

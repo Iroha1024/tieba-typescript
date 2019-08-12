@@ -66,7 +66,7 @@ export default class Home extends Vue {
 
 <style lang="scss" scoped>
     .home {
-        @include page-height;
+        @include view-height;
         .home-content {
             @include layout;
         }

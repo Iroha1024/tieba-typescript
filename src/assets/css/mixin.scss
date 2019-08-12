@@ -1,11 +1,13 @@
+//整体内容布局
 @mixin layout {
     background-color: #fff;
-    min-height: 700px;
+    min-height: 750px;
     margin: 0 auto;
     padding: 20px;
     width: 800px;
 }
 
-@mixin page-height {
+//滚轮视窗大小
+@mixin view-height {
     height: calc(100% - #{$head-nav-height});
 }

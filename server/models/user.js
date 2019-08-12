@@ -112,6 +112,23 @@ class User {
                 })
     }
 
+    //根据id，查询用户
+    static selectUserById(id) {
+        return db('user')
+                .where('user.id', '=', id)
+                .select()
+                .then(u => {
+                    u = u[0];
+                    let user = new User({
+                        id: u.id,
+                        name: u.name,
+                        sex: u.sex,
+                        head_img: u.head_img,
+                    })
+                    return user;
+                })
+    }
+
 }
 
 module.exports = User;

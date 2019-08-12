@@ -14,6 +14,13 @@ export const GET_RECOMMEND_ARTICLE_LIST = '/home/getRecommendArticleList';
 //homeSpecialFollow.vue
 export const GET_SPECIAL_FOLLOW_ARTICLE_LIST = '/home/getSpecialFollowArticleList/';
 
+//search.vue
+export const SEARCH = '/search/';
+
+//info.vue
+export const GET_USER_INFO = '/info/getUserInfo/';
+export const GET_USER_ARTICLE_LIST = '/info/getUserArticleList/';
+
 //ba.vue
 export const GET_BA_INFO = '/ba/getBaInfo/';
 export const FOLLOW = '/ba/follow';

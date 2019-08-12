@@ -173,7 +173,7 @@ export default class Tieba extends Vue {
 
 <style lang="scss" scoped>
     .ba {
-        @include page-height;
+        @include view-height;
         .ba-content {
             @include layout;
             .ba-profile {

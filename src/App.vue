@@ -4,7 +4,6 @@
         <!-- <keep-alive> -->
             <router-view :key="$route.path"/>
         <!-- </keep-alive> -->
-        <footer></footer>
     </div>
 </template>
 

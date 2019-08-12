@@ -21,9 +21,9 @@ export interface Article {
     id?: number
     title: string
     content: string
-    user_name: string
-    head_img : string
-    publish_time: Date
+    user_name?: string
+    head_img ?: string
+    publish_time?: Date
 }
 
 export interface Reply {

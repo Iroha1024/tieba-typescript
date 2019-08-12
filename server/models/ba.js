@@ -49,6 +49,25 @@ class Ba {
             })
     }
 
+    //模糊查询贴吧
+    static fuzzyQuery(keyword) {
+        return db.raw(`SELECT * FROM ba WHERE POSITION('${keyword}' IN NAME)`)
+                .then(b => {
+                    b = b[0];
+                    if (!b.length) return [];
+                    let ba_list = [];
+                    b.forEach(b => {
+                        let ba = new Ba({
+                            name: b.name,
+                            url: b.url,
+                            img: b.img,
+                        })
+                        ba_list.push(ba);
+                    })
+                    return ba_list;
+                })
+    }
+
 }
 
 module.exports = Ba;
