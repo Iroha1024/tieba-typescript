@@ -23,4 +23,18 @@ router.get('/getUserArticleList/:id', (req, res) => {
     })
 })
 
+//修改用户信息
+router.post('/sendEditInfo', (req, res) => {
+    const id = req.body.id;
+    const login_name = req.body.login_name;
+    const name = req.body.name;
+    const sex = req.body.sex;
+    const password = req.body.password;
+    Promise.all([User.updateUserInfo(id, name, sex, password), User.selectUserByLoginName(login_name)])
+    .then(([result, user]) => {
+        console.log(user);
+        res.send({ success: true, user });
+    })
+})
+
 module.exports = router;

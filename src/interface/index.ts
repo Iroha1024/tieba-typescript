@@ -3,7 +3,7 @@ export interface User {
     login_name: string
     name?: string
     password?: string
-    sex?: boolean
+    sex?: number | null
     head_img?: string
     resgister_time?: Date
 }

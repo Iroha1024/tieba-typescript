@@ -10,9 +10,14 @@
                         <img v-lazy="user.head_img">
                     </div>
                     <div class="profile">
-                        <div class="username">{{ user.name }}</div>
+                        <span class="username">{{ user.name }}</span>
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-xingbie" v-if="user.sex === null"></use>
+                            <use xlink:href="#icon-xingbienan" v-if="user.sex === 0"></use>
+                            <use xlink:href="#icon-xingbienv"  v-if="user.sex === 1"></use>
+                        </svg>
                         <div class="edit" v-if="user.id === getLocalUser.id">
-                            <el-button type="primary">编辑资料</el-button>
+                            <el-button type="primary" @click="dialog = true">编辑资料</el-button>
                         </div>
                     </div>
                 </div>
@@ -27,6 +32,7 @@
                     <el-tab-pane label="其他" name="other">其他</el-tab-pane>
                 </el-tabs>
             </div>
+            <info-edit :dialog.sync="dialog" @updateInfo="getUserInfo"></info-edit>
         </el-scrollbar>
     </div>
 </template>
@@ -36,11 +42,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 
 import BaArticle from '../components/ba/baArticle.vue';
+import InfoEdit from '../components/info/infoEdit.vue';
 import { User, Article } from '../interface/';
 
 @Component({
     components: {
-        BaArticle
+        BaArticle,
+        InfoEdit
     }
 })
 export default class Info extends Vue {
@@ -52,6 +60,7 @@ export default class Info extends Vue {
     activeName = 'article'
     user = <User>{};
     article_list: Article[] | [] = [];
+    dialog = false;
 
     created() {
         this.getUserInfo();
@@ -123,6 +132,14 @@ export default class Info extends Vue {
                     position: relative;
                     .username {
                         font-size: 30px;
+                    }
+                    .icon {
+                        font-size: 30px;
+                        width: 50px;
+                        height: 50px;
+                        position: relative;
+                        padding-left: 20px;
+                        top: 15px;
                     }
                     .edit {
                         padding-top: 20px;

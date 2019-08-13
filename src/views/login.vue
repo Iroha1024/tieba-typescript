@@ -39,7 +39,7 @@ export default class Login extends Vue {
         {
             info: '用户名',
             name: 'username',
-            maxlength: '15',
+            maxlength: '16',
             pattern: '^[\\w_-]{4,16}$',
             msg: '4到16位（字母，数字，下划线，减号）'
         },
@@ -51,11 +51,6 @@ export default class Login extends Vue {
             msg: '6到20位（字母，数字）'
         },
     ];
-
-    created() {
-        // console.log(localStorage.getItem('user'));
-        // console.log(this.$store.getters.getUser);
-    }
 
     //检查是否符合正则
     check(index: number, input: HTMLInputElement) {

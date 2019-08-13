@@ -21,6 +21,9 @@ export const SEARCH = '/search/';
 export const GET_USER_INFO = '/info/getUserInfo/';
 export const GET_USER_ARTICLE_LIST = '/info/getUserArticleList/';
 
+//infoEdit.vue
+export const SEND_EDIT_INFO = '/info/sendEditInfo/';
+
 //ba.vue
 export const GET_BA_INFO = '/ba/getBaInfo/';
 export const FOLLOW = '/ba/follow';

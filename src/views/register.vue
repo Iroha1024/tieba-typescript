@@ -39,7 +39,7 @@ export default class Register extends Vue {
         {
             info: '用户名',
             name: 'username',
-            maxlength: '15',
+            maxlength: '16',
             pattern: '^[\\w_-]{4,16}$',
             msg: '4到16位（字母，数字，下划线，减号）'
         },

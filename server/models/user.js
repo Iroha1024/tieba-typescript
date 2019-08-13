@@ -129,6 +129,16 @@ class User {
                 })
     }
 
+    //更新用户信息
+    static updateUserInfo(id, name, sex, password) {
+        return db('user')
+                .where('id', id)
+                .update({ name, sex, password })
+                .then((user_id) => {
+                    return user_id;
+                })
+    }
+
 }
 
 module.exports = User;

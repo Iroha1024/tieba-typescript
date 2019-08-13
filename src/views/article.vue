@@ -147,6 +147,8 @@ export default class Article_ extends Vue {
             })
             return;
         }
+        //直接复制网站文字，导致样式粘贴进入回复
+        // console.log(text);
         this.getFloorId(text);
     }
 
